@@ -1,8 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+<!--    ViewData["Title"] = "Index"; -->
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-info">
+    <h2>Test project</h2>
+    <h3>Links to other pages:</h3>
+</div>
+
+<!--
+<div class="form-group">
+    <a class="btn btn-outline-primary" asp-controller="Fridges" asp-action="Index"><i class="bi bi-pencil-square"></i>Edit</a> |
+    <a class = "btn btn-outline-info" asp-controller="Fridges" asp-action ="Index"><i class = "bi bi-eye"></i>Details</a> |
+    <a class="btn btn-outline-danger" asp-controller="Fridges" asp-action="Index"><i class="bi bi-trash"></i>Delete</a>
+</div>
+
+<div class="form-group">
+    <input class="btn btn-outline-success float-right" type="submit" value="Sign up" />
+    <a class="btn btn-outline-secondary" asp-controller="Fridges" asp-action="Index">Cancel</a>n
+</div>
+-->
+
+
+
+<div class="form-group">
+    <a class="btn btn-outline-primary" asp-controller="Fridges" asp-action="Index">Fridges</a>
+    <a class="btn btn-outline-primary" asp-controller="Products" asp-action="Index">Products</a>
 </div>
