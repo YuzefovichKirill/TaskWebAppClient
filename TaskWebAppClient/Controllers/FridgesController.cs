@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TaskWebAPIServer.Models;
+using TaskWebAppClient.Models;
 using TaskWebAppClient.Helper;
 using TaskWebAppClient.Models;
 using System.Net.Http.Json;
@@ -59,7 +59,7 @@ namespace TaskWebAppClient.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            return View(fridge);
         }
 
         public async Task<IActionResult> Edit(Guid id)

@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TaskWebAPIServer.Models;
+using TaskWebAppClient.Models;
 using TaskWebAppClient.Helper;
 using TaskWebAppClient.Models;
 

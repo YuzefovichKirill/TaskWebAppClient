@@ -13,7 +13,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
-using TaskWebAPIServer.Models;
+using TaskWebAppClient.Models;
 using TaskWebAppClient.Helper;
 using TaskWebAppClient.Models;
 using JsonConverter = System.Text.Json.Serialization.JsonConverter;

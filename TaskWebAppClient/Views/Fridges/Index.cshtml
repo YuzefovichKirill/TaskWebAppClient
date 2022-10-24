@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TaskWebAPIServer.Models.Fridge>
+﻿@model IEnumerable<TaskWebAppClient.Models.Fridge>
 
 @{
     ViewData["Title"] = "Fridges";
@@ -44,9 +44,14 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+                @Html.ActionLink("Get products in fridge", "Index", "FridgeProducts", new { fridgeId=item.Id })
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<div>
+    @Html.ActionLink("Back to main page", "Index", "Home", new {})
+</div>
