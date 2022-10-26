@@ -27,10 +27,10 @@ namespace TaskWebAppClient.Controllers
             List<Fridge> fridges = new List<Fridge>();
             HttpClient client = _api.Initial();
 
-            HttpResponseMessage res = await client.GetAsync("api/fridge");
-            if (res.IsSuccessStatusCode)
+            var getRecords = await client.GetAsync("api/fridge");
+            if (getRecords.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
+                var result = getRecords.Content.ReadAsStringAsync().Result;
                 fridges = JsonConvert.DeserializeObject<List<Fridge>>(result);
             }
 
@@ -58,14 +58,17 @@ namespace TaskWebAppClient.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(fridge);
+            else
+            {
+                ViewBag.message = insertRecord.Content.ReadAsStringAsync().Result;
+                return View(fridge);
+            }
         }
 
         public async Task<IActionResult> Edit(Guid id)
         {
             HttpClient client = _api.Initial();
-            Fridge dbFridge = null;
+            Fridge dbFridge = new();
 
             var editRecord = await client.GetAsync("api/fridge/" + id.ToString());
 
@@ -80,40 +83,34 @@ namespace TaskWebAppClient.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,OwnerName,FridgeModelId")] Fridge fridge)
-        {
+        {   
             HttpClient client = _api.Initial();
 
-            HttpResponseMessage response = await client.PutAsJsonAsync("api/fridge/" + id.ToString(), fridge);
+            var editRecord = await client.PutAsJsonAsync("api/fridge/" + id.ToString(), fridge);
 
-            if (response.IsSuccessStatusCode)
+            if (editRecord.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                ViewBag.message = "Fridge record isn\'t updated";
+                ViewBag.message = editRecord.Content.ReadAsStringAsync().Result;
+                return View("Edit", fridge);
             }
-
-            return View("Edit", fridge);
-
         }
 
 
         public async Task<IActionResult> Delete(Guid id)
         {
             HttpClient client = _api.Initial();
-            Fridge dbFridge = null;
+            Fridge dbFridge = new();
 
-            var res = await client.GetAsync("api/fridge/" + id.ToString());
+            var getRecord = await client.GetAsync("api/fridge/" + id.ToString());
 
-            if (res.IsSuccessStatusCode)
+            if (getRecord.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
+                var result = getRecord.Content.ReadAsStringAsync().Result;
                 dbFridge = JsonConvert.DeserializeObject<Fridge>(result);
-            }
-            else
-            {
-                return View("Error");
             }
 
             return View(dbFridge);
@@ -132,7 +129,8 @@ namespace TaskWebAppClient.Controllers
             }
             else
             {
-                return View("Error");
+                ViewBag.message = deleteRecord.Content.ReadAsStringAsync().Result;
+                return View(nameof(Delete), new Fridge());
             }
 
         }

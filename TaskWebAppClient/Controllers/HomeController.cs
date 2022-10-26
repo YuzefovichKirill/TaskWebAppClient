@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TaskWebAppClient.Models;
 using TaskWebAppClient.Helper;
-using TaskWebAppClient.Models;
+using System.Net.Http.Json;
 
 namespace TaskWebAppClient.Controllers
 {
@@ -22,6 +22,17 @@ namespace TaskWebAppClient.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Procedure()
+        {
+            HttpClient client = _api.Initial();
+
+            await client.PostAsJsonAsync<FridgeProduct>("api/fridgeproduct", null);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult Privacy()
         {
             return View();

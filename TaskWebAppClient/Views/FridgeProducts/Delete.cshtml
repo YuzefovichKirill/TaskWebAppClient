@@ -12,12 +12,6 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProductId)
         </dt>
         <dd class = "col-sm-10">
@@ -37,6 +31,9 @@
         </dd>
     </dl>
 
+    <div>
+        @ViewBag.message
+    </div>
 
     <form asp-action="Delete">
         @Html.ActionLink("Delete", "DeleteConfirm", new { fridgeId=Model.FridgeId, productId = Model.ProductId }) |

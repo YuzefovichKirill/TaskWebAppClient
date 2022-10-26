@@ -13,11 +13,6 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
@@ -30,9 +25,12 @@
             <div class="form-group">
                 <input type="submit" value="Update" class="btn btn-primary" />
             </div>
-            @ViewData["Message"]
         </form>
     </div>
+</div>
+
+<div>
+    @ViewBag.message
 </div>
 
 <div>

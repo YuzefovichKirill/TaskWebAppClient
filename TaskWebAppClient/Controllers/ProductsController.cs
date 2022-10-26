@@ -33,10 +33,11 @@ namespace TaskWebAppClient.Controllers
             List<Product> products = new List<Product>();
             HttpClient client = _api.Initial();
 
-            HttpResponseMessage res = await client.GetAsync("api/product");
-            if (res.IsSuccessStatusCode)
+            var getRecords = await client.GetAsync("api/product");
+
+            if (getRecords.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
+                var result = getRecords.Content.ReadAsStringAsync().Result;
                 products = JsonConvert.DeserializeObject<List<Product>>(result);
             }
 
@@ -64,8 +65,12 @@ namespace TaskWebAppClient.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                ViewBag.message = insertRecord.Content.ReadAsStringAsync().Result;
+                return View(product);
+            }
 
-            return View();
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -73,11 +78,11 @@ namespace TaskWebAppClient.Controllers
             HttpClient client = _api.Initial();
             Product dbProduct = null;
 
-            var res = await client.GetAsync("api/product/" + id.ToString());
+            var getRecord = await client.GetAsync("api/product/" + id.ToString());
 
-            if (res.IsSuccessStatusCode)
+            if (getRecord.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
+                var result = getRecord.Content.ReadAsStringAsync().Result;
                 dbProduct = JsonConvert.DeserializeObject<Product>(result);
             }
 
@@ -89,32 +94,7 @@ namespace TaskWebAppClient.Controllers
         {
             HttpClient client = _api.Initial();
 
-            /*var patchDocument = new JsonPatchDocument<Product>();
-            patchDocument.Replace(p => p, product);
-            var serializedDocument = JsonConvert.SerializeObject(patchDocument);
-            var requestContent = new StringContent(serializedDocument, Encoding.UTF8, "application/json-patch+json");*/
-
-
-             HttpResponseMessage response = await client.PutAsJsonAsync("api/product/" + id.ToString(), product);
-
-             if (response.IsSuccessStatusCode)
-             {
-                 return RedirectToAction(nameof(Index));
-             }
-             else
-             {
-                 ViewBag.message = "Product record isn\'t updated";
-             }
-
-             return View("Edit", product);
-
-
-            /*var request = new HttpRequestMessage(new HttpMethod("PATCH"), "api/product/" + id.ToString())
-             {
-                 Content = requestContent
-             };
-
-            var editRecord = await client.SendAsync(request);
+            var editRecord = await client.PutAsJsonAsync("api/product/" + id.ToString(), product);
 
             if (editRecord.IsSuccessStatusCode)
             {
@@ -122,23 +102,22 @@ namespace TaskWebAppClient.Controllers
             }
             else
             {
-                ViewBag.message = "Product record isn\'t updated";
+                ViewBag.message = editRecord.Content.ReadAsStringAsync().Result;
+                return View("Edit", product);
             }
-
-            return View("Edit", product);*/
         }
 
 
         public async Task<IActionResult> Delete(Guid id)
         {
             HttpClient client = _api.Initial();
-            Product dbProduct = null;
+            Product dbProduct = new();
 
-            var res = await client.GetAsync("api/product/" + id.ToString());
+            var getRecord = await client.GetAsync("api/product/" + id.ToString());
 
-            if (res.IsSuccessStatusCode)
+            if (getRecord.IsSuccessStatusCode)
             {
-                var result = res.Content.ReadAsStringAsync().Result;
+                var result = getRecord.Content.ReadAsStringAsync().Result;
                 dbProduct = JsonConvert.DeserializeObject<Product>(result);
 
             }
@@ -153,7 +132,15 @@ namespace TaskWebAppClient.Controllers
 
             var deleteRecord = await client.DeleteAsync("api/product/" + id.ToString());
 
-            return RedirectToAction(nameof(Index));
+            if (deleteRecord.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ViewBag.message = deleteRecord.Content.ReadAsStringAsync().Result;
+                return View(nameof(Delete), new Product());
+            }
         }
     }
 }
