@@ -4,23 +4,33 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TaskWebAppClient.Models;
+using TaskWebAppClient.Helper;
+using System.Net.Http.Json;
 
 namespace TaskWebAppClient.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private FridgeAPI _api = new FridgeAPI();
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Procedure()
+        {
+            HttpClient client = _api.Initial();
+
+            await client.PostAsJsonAsync<FridgeProduct>("api/fridgeproduct", null);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

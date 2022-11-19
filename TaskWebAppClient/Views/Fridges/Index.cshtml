@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TaskWebAppClient.Models.Fridge>
+
+@{
+    ViewData["Title"] = "Fridges";
+}
+
+<h1>Fridges</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeModelId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FridgeModelId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+                @Html.ActionLink("Get products in fridge", "Index", "FridgeProducts", new { fridgeId=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to main page", "Index", "Home", new {})
+</div>

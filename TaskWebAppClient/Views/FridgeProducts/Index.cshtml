@@ -1,0 +1,80 @@
+﻿@model TaskWebAppClient.Models.FridgeProductVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div>
+    <h1>Fridge</h1>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.fridge.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.fridge.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.fridge.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.fridge.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.fridge.OwnerName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.fridge.OwnerName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.fridge.FridgeModelId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.fridge.FridgeModelId)
+        </dd>
+    </dl>
+</div>
+
+<h3>Fridge products</h3>
+@Html.ActionLink("Add product", "Add", new { fridgeId=Model.fridge.Id })
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.products.FirstOrDefault().Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.products.FirstOrDefault().Name)
+        </th>
+        <th>
+            Quantity
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.products) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.DefaultQuantity)
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { fridgeId=Model.fridge.Id , productId=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { fridgeId=Model.fridge.Id , productId=item.Id })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to Fridges", "Index", "Fridges", new {})
+</div>
